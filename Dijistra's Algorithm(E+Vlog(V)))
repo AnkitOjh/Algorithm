@@ -1,0 +1,29 @@
+from collections import defaultdict
+from heapq import heappush,heappop,heapify
+import sys
+graph=defaultdict(list)
+e=int(input())
+V=int(input())
+for i in range(0,e):
+    u,v,w=map(int,input().split())
+    graph[u].append(list([w,v]))
+heap=[(0,1)]
+heapify(heap)
+visited=set()
+inf=9999999999
+distance={i:inf for i in range(1,V+1)}
+distance[1]=0
+while heap:
+    weight,node=heappop(heap)
+
+    if node in visited:
+        continue
+    visited.add(node)
+    if len(visited)==V:
+        break
+    for currWeight, v in graph[node]:
+
+        if weight + currWeight < distance[v] and v not in visited:
+            distance[v] = weight + currWeight
+            heappush(heap, (weight + currWeight, v))
+print(distance)
